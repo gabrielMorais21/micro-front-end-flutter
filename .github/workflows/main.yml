@@ -34,7 +34,7 @@ jobs:
             echo "Processing $MODULE"
             cd micro_apps/$MODULE
             flutter pub get
-            flutter test --no-pub --coverage || echo "Test failed in $MODULE"
+            flutter test --coverage 
             cd ../../
             if [ -f micro_apps/$MODULE/coverage/lcov.info ]; then
               mv micro_apps/$MODULE/coverage/lcov.info coverage_$MODULE.info

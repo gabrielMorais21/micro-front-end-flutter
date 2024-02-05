@@ -1,6 +1,7 @@
 name: event_bridge
 description: "A new Flutter package project."
 version: 0.0.1
+publish_to: none
 
 environment:
   sdk: '>=3.2.4 <4.0.0'
