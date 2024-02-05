@@ -1,0 +1,53 @@
+name: Flutter Micro-Apps Test Coverage
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test_and_coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.2.3' # Especifique sua versão do Flutter aqui
+
+      - name: Install LCOV (Linux Code Coverage)
+        run: sudo apt-get install lcov
+      
+      - name: Find Flutter modules
+        id: flutter-modules
+        run: |
+          echo "::set-output name=modules::$(ls -d micro_apps/*/ | xargs -n 1 basename)"
+      
+      - name: Test and coverage for each module
+        run: |
+          for MODULE in ${{ steps.flutter-modules.outputs.modules }}; do
+            echo "Processing $MODULE"
+            cd micro_apps/$MODULE
+            flutter pub get
+            flutter test --no-pub --coverage
+            cd ../../
+            mv micro_apps/$MODULE/coverage/lcov.info coverage_$MODULE.info
+          done
+
+      - name: Combine coverage reports
+        run: |
+          lcov $(printf -- "-a coverage_%s.info " ${{ steps.flutter-modules.outputs.modules }}) -o coverage_combined.info
+
+      - name: Generate LCOV report
+        run: |
+          genhtml coverage_combined.info --output-directory coverage_report
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage_report/
