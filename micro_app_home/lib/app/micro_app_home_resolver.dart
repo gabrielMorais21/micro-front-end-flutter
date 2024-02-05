@@ -29,6 +29,28 @@ class MicroAppHomeResolver implements MicroApp {
   };
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 abstract class Teste {
   olamundo();
 }

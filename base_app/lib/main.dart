@@ -31,6 +31,8 @@ class MyApp extends StatelessWidget with BaseApp {
   Map<String, WidgetBuilderArgs> get baseRoutes => {};
 
   @override
-  List<MicroApp> get microApps =>
-      [MicroAppHomeResolver(), MicroAppLoginResolver()];
+  List<MicroApp> get microApps => [
+        MicroAppHomeResolver(),
+        MicroAppLoginResolver(),
+      ];
 }
