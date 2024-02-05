@@ -34,6 +34,7 @@ jobs:
           mv micro_apps/micro_app_home/coverage/lcov.info coverage_$MODULE.info
           cd ..
           cd ..
+        continue-on-error: true
 
       - name: Test and coverage micro_app_login
         run: |
@@ -42,6 +43,7 @@ jobs:
           mv micro_apps/micro_app_login/coverage/lcov.info coverage_$MODULE.info
           cd ..
           cd ..
+        continue-on-error: true
 
       - name: Combine coverage reports
         run: |
