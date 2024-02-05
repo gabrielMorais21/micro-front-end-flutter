@@ -1,57 +1,38 @@
-name: Flutter Micro-Apps Test Coverage
+name: Flutter Micro Apps Tests
 
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
-  test_and_coverage:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '3.16.7' 
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v1
+      with:
+        flutter-version: '3.16.7' # Especifique a versão do Flutter que você está usando
 
-      - name: Install LCOV (Linux Code Coverage)
-        run: sudo apt-get install lcov
-      
-      - name: Find Flutter modules
-        id: flutter-modules
-        run: |
-          echo "::set-output name=modules::$(ls -d micro_apps/*/ | xargs -n 1 basename)"
-      
-      - name: Test and coverage for each module
-        continue-on-error: true
-        run: |
-          for MODULE in ${{ steps.flutter-modules.outputs.modules }}; do
-            echo "Processing $MODULE"
-            cd micro_apps/$MODULE
-            flutter pub get
-            flutter test --no-pub --coverage
-            cd ../../
-            mv micro_apps/$MODULE/coverage/lcov.info coverage_$MODULE.info
-          done
+    - name: Install dependencies
+      run: |
+        cd micro_apps
+        for d in */ ; do
+          echo "Installing dependencies in $d"
+          cd $d
+          flutter pub get
+          cd ..
+        done
 
-      - name: Combine coverage reports
-        continue-on-error: true
-        run: |
-          lcov $(printf -- "-a coverage_%s.info " ${{ steps.flutter-modules.outputs.modules }}) -o coverage_combined.info
-
-      - name: Generate LCOV report
-        continue-on-error: true
-        run: |
-          genhtml coverage_combined.info --output-directory coverage_report
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v2
-        continue-on-error: true
-        with:
-          name: coverage-report
-          path: coverage_report/
+    - name: Run tests
+      run: |
+        cd micro_apps
+        for d in */ ; do
+          echo "Running tests in $d"
+          cd $d
+          flutter test --coverage
+          cd ..
+        done
