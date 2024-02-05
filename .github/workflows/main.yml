@@ -3,10 +3,10 @@ name: Flutter Micro-Apps Test Coverage
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   test_and_coverage:
@@ -17,7 +17,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v1
         with:
-          flutter-version: '3.16.7' # Especifique sua versão do Flutter aqui
+          flutter-version: '3.16.7' 
 
       - name: Install LCOV (Linux Code Coverage)
         run: sudo apt-get install lcov
@@ -27,34 +27,31 @@ jobs:
         run: |
           echo "::set-output name=modules::$(ls -d micro_apps/*/ | xargs -n 1 basename)"
       
-      - name: Test and coverage micro_app_home
-        run: |
-          cd micro_apps/micro_app_home
-          flutter test --coverage
-          mv micro_apps/micro_app_home/coverage/lcov.info coverage_$MODULE.info
-          cd ..
-          cd ..
+      - name: Test and coverage for each module
         continue-on-error: true
-
-      - name: Test and coverage micro_app_login
         run: |
-          cd micro_apps/micro_app_login
-          flutter test --coverage
-          mv micro_apps/micro_app_login/coverage/lcov.info coverage_$MODULE.info
-          cd ..
-          cd ..
-        continue-on-error: true
+          for MODULE in ${{ steps.flutter-modules.outputs.modules }}; do
+            echo "Processing $MODULE"
+            cd micro_apps/$MODULE
+            flutter pub get
+            flutter test --no-pub --coverage
+            cd ../../
+            mv micro_apps/$MODULE/coverage/lcov.info coverage_$MODULE.info
+          done
 
       - name: Combine coverage reports
+        continue-on-error: true
         run: |
-          lcov $(for MODULE in ${{ steps.flutter-modules.outputs.modules }}; do echo "-a coverage_$MODULE.info"; done) -o coverage_combined.info
+          lcov $(printf -- "-a coverage_%s.info " ${{ steps.flutter-modules.outputs.modules }}) -o coverage_combined.info
 
       - name: Generate LCOV report
+        continue-on-error: true
         run: |
           genhtml coverage_combined.info --output-directory coverage_report
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
+        continue-on-error: true
         with:
           name: coverage-report
           path: coverage_report/
