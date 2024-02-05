@@ -27,17 +27,17 @@ jobs:
         run: |
           echo "::set-output name=modules::$(ls -d micro_apps/*/ | xargs -n 1 basename)"
       
-      - name: Test and coverage for each module
+      - name: Test and coverage micro_app_home
         run: |
-          MODULES=$(ls -d micro_apps/*/ | xargs -n 1 basename)
-          for MODULE in $MODULES; do
-            echo "Processing $MODULE"
-            pushd micro_apps/$MODULE
-            flutter pub get
-            flutter test --no-pub --coverage
-            popd
-            mv micro_apps/$MODULE/coverage/lcov.info coverage_$MODULE.info
-          done
+          cd micro_apps/micro_app_home
+          flutter test --coverage
+          mv micro_apps/micro_app_home/coverage/lcov.info coverage_$MODULE.info
+
+      - name: Test and coverage micro_app_login
+        run: |
+          cd micro_apps/micro_app_login
+          flutter test --coverage
+          mv micro_apps/micro_app_login/coverage/lcov.info coverage_$MODULE.info
 
       - name: Combine coverage reports
         run: |
