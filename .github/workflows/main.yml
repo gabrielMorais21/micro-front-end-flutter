@@ -32,12 +32,16 @@ jobs:
           cd micro_apps/micro_app_home
           flutter test --coverage
           mv micro_apps/micro_app_home/coverage/lcov.info coverage_$MODULE.info
+          cd ..
+          cd ..
 
       - name: Test and coverage micro_app_login
         run: |
           cd micro_apps/micro_app_login
           flutter test --coverage
           mv micro_apps/micro_app_login/coverage/lcov.info coverage_$MODULE.info
+          cd ..
+          cd ..
 
       - name: Combine coverage reports
         run: |
