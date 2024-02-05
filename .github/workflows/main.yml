@@ -29,20 +29,15 @@ jobs:
       
       - name: Test and coverage for each module
         run: |
-          set +e # Continue em caso de erro
-          for MODULE in ${{ steps.flutter-modules.outputs.modules }}; do
+          MODULES=$(ls -d micro_apps/*/ | xargs -n 1 basename)
+          for MODULE in $MODULES; do
             echo "Processing $MODULE"
-            cd micro_apps/$MODULE
+            pushd micro_apps/$MODULE
             flutter pub get
-            flutter test --coverage 
-            cd ../../
-            if [ -f micro_apps/$MODULE/coverage/lcov.info ]; then
-              mv micro_apps/$MODULE/coverage/lcov.info coverage_$MODULE.info
-            else
-              echo "Coverage report not found for $MODULE"
-            fi
+            flutter test --no-pub --coverage
+            popd
+            mv micro_apps/$MODULE/coverage/lcov.info coverage_$MODULE.info
           done
-          set -e # Reativa a verificação de erro
 
       - name: Combine coverage reports
         run: |
