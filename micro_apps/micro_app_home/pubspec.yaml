@@ -8,10 +8,10 @@ environment:
 
 dependencies:
   micro_core:
-    path: "../micro_core"
+    path: "../../micro_core"
 
   event_bridge:
-    path: "../event_bridge"
+    path: "../../event_bridge"
 
   flutter:
     sdk: flutter

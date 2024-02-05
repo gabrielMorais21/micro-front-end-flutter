@@ -45,13 +45,13 @@ dependency_overrides:
       ref: v1.0.2
 
   micro_app_login:
-    path: ../micro_app_login
+    path: ../micro_apps/micro_app_login
 
   event_bridge:
     path: ../event_bridge
 
   micro_app_home:
-    path: ../micro_app_home
+    path: ../micro_apps/micro_app_home
     # git:
     #   url: https://github.com/DeividWillyan/-Curso-Micro-App-Home.git
     #   ref: v1.0.1

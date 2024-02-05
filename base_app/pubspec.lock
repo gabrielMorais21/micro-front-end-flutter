@@ -133,14 +133,14 @@ packages:
   micro_app_home:
     dependency: "direct main"
     description:
-      path: "../micro_app_home"
+      path: "../micro_apps/micro_app_home"
       relative: true
     source: path
     version: "0.0.1"
   micro_app_login:
     dependency: "direct main"
     description:
-      path: "../micro_app_login"
+      path: "../micro_apps/micro_app_login"
       relative: true
     source: path
     version: "0.0.1"
