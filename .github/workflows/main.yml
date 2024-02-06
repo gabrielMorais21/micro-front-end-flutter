@@ -23,6 +23,7 @@ jobs:
         for dir in micro_apps/*; do
           if [ -d "$dir" ]; then
             echo "Running tests and generating coverage for $(basename $dir)"
+            pwd
             pushd "$dir"
             flutter pub get
             flutter test --coverage || true
