@@ -13,27 +13,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: subosito/flutter-action@v1
+    - uses: actions/setup-java@v2
+      with:
+        java-version: '12' # Flutter precisa do Java para algumas ferramentas
+    - uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.16.7' # Especifique a versão do Flutter que você está usando
-
-    - name: Install dependencies
+    - name: Get dependencies
+      run: flutter pub get
+    - name: Run tests and generate coverage reports for microfrontends
       run: |
-        cd micro_apps
-        for d in */ ; do
-          echo "Installing dependencies in $d"
-          cd $d
-          flutter pub get
-          cd ..
+        for dir in micro_apps/*; do
+          if [ -d "$dir" ]; then
+            echo "Running tests and generating coverage for $(basename $dir)"
+            pushd "$dir"
+            flutter test --coverage
+            popd
+          fi
         done
-
-    - name: Run tests
-      continue-on-error: true
-      run: |
-        cd micro_apps
-        for d in */ ; do
-          echo "Running tests in $d"
-          cd $d
-          flutter test --coverage || true
-          cd ..
-        done
+    - name: Upload coverage reports
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage-reports
+        path: micro_apps/*/coverage/lcov.info
