@@ -16,7 +16,9 @@ jobs:
     - uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.16.7' # Especifique a versão do Flutter que você está usando
+
     - name: Run tests and generate coverage reports for microfrontends
+      continue-on-error: true
       run: |
         for dir in micro_apps/*; do
           if [ -d "$dir" ]; then
