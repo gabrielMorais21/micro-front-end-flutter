@@ -16,14 +16,13 @@ jobs:
     - uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.16.7' # Especifique a versão do Flutter que você está usando
-    - name: Get dependencies
-      run: flutter pub get
     - name: Run tests and generate coverage reports for microfrontends
       run: |
         for dir in micro_apps/*; do
           if [ -d "$dir" ]; then
             echo "Running tests and generating coverage for $(basename $dir)"
             pushd "$dir"
+            flutter pub get
             flutter test --coverage
             popd
           fi
