@@ -1,4 +1,6 @@
+import 'package:base_app/presentation/nested_navigator.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:micro_app_login/app/micro_app_login_resolver.dart';
 
 import 'package:micro_core/micro_core.dart';
@@ -9,6 +11,7 @@ void main() {
   runApp(MyApp());
 }
 
+// ignore: use_key_in_widget_constructors
 class MyApp extends StatelessWidget with BaseApp {
   @override
   Widget build(BuildContext context) {
@@ -16,19 +19,24 @@ class MyApp extends StatelessWidget with BaseApp {
     super.registerListeners();
     super.registerRouters();
 
-    return MaterialApp(
+
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      navigatorKey: navigatorKey,
-      onGenerateRoute: super.generateRoute,
-      initialRoute: '/login',
+      routerConfig: generateRouteConfig(initialLocation: "/home"),
     );
   }
 
   @override
-  Map<String, WidgetBuilderArgs> get baseRoutes => {};
+  List<RouteBase> get baseRoutes => [
+        ShellRoute(
+          
+            navigatorKey: shellNavigator,
+            builder: (context, state, child) => NestedNavigator(body: child),
+            routes: bottomNavigationroutes)
+      ];
 
   @override
   List<MicroApp> get microApps => [

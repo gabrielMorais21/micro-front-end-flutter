@@ -1,11 +1,11 @@
-import 'package:get_it/get_it.dart';
-
-import 'micro_core_utils.dart';
+import 'package:go_router/go_router.dart';
 
 abstract class MicroApp {
   String get microAppName;
 
-  Map<String, WidgetBuilderArgs> get routes;
+  List<RouteBase> get routes;
+
+  List<RouteBase> get bottomNavigationroutes;
 
   void Function() get injectionsRegister;
 

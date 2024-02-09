@@ -82,22 +82,27 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   get_it:
     dependency: transitive
     description:
       name: get_it
-      sha256: d0b88dc35a7f97fd91fec0cf8f165abd97a57977968d8fc02ba0bc92e14ba07e
+      sha256: e6017ce7fdeaf218dc51a100344d8cb70134b80e28b760f8bb23c242437bafd7
       url: "https://pub.dev"
     source: hosted
-    version: "7.6.6"
-  golden_toolkit:
-    dependency: transitive
+    version: "7.6.7"
+  go_router:
+    dependency: "direct main"
     description:
-      name: golden_toolkit
-      sha256: f74323c846a858a3e9d486aea074a93711c627fd8d64b00eb9e70b423b8d2f66
+      name: go_router
+      sha256: "07ee2436909f749d606f53521dc1725dd738dc5196e5ff815bc254253c594075"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.0"
+    version: "13.1.0"
   lints:
     dependency: transitive
     description:
@@ -106,6 +111,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      sha256: "623a88c9594aa774443aa3eb2d41807a48486b5613e67599fb4c41c0ad47c340"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   matcher:
     dependency: transitive
     description:
@@ -144,15 +157,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  micro_commons_design_system:
-    dependency: "direct overridden"
-    description:
-      path: "."
-      ref: "v1.0.2"
-      resolved-ref: "6f19a6f8aa787bb4195b4079d542a062c555a0ca"
-      url: "https://github.com/DeividWillyan/-Curso-Micro-Commons-Design-System.git"
-    source: git
-    version: "1.0.2"
   micro_core:
     dependency: "direct main"
     description:
@@ -239,3 +243,4 @@ packages:
     version: "0.3.0"
 sdks:
   dart: ">=3.2.4 <4.0.0"
+  flutter: ">=3.10.0"

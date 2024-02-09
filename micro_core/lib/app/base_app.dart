@@ -1,20 +1,32 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 import 'microapp.dart';
-import 'micro_core_utils.dart';
 
 final sl = GetIt.instance;
-
 mixin BaseApp {
   List<MicroApp> get microApps;
 
-  Map<String, WidgetBuilderArgs> get baseRoutes;
+  List<RouteBase> get baseRoutes;
 
-  final Map<String, WidgetBuilderArgs> routes = {};
+  final List<RouteBase> routes = [];
+
+  final List<RouteBase> bottomNavigationroutes = [];
+
+  final GlobalKey<NavigatorState> rootNavigator = GlobalKey(debugLabel: 'root');
+
+  final GlobalKey<NavigatorState> shellNavigator =
+      GlobalKey(debugLabel: 'shell');
 
   void registerRouters() {
-    if (baseRoutes.isNotEmpty) routes.addAll(baseRoutes);
+    if (microApps.isNotEmpty) {
+      for (MicroApp microapp in microApps) {
+        bottomNavigationroutes.addAll(microapp.bottomNavigationroutes);
+      }
+    }
+
+    if (baseRoutes.isNotEmpty && bottomNavigationroutes.isNotEmpty) routes.addAll(baseRoutes);
     if (microApps.isNotEmpty) {
       for (MicroApp microapp in microApps) {
         routes.addAll(microapp.routes);
@@ -30,7 +42,7 @@ mixin BaseApp {
     }
   }
 
-    void registerListeners() {
+  void registerListeners() {
     if (microApps.isNotEmpty) {
       for (MicroApp microapp in microApps) {
         microapp.createListener();
@@ -38,15 +50,8 @@ mixin BaseApp {
     }
   }
 
-  Route<dynamic>? generateRoute(RouteSettings settings) {
-    var routerName = settings.name;
-    var routerArgs = settings.arguments;
-
-    var navigateTo = routes[routerName];
-    if (navigateTo == null) return null;
-
-    return MaterialPageRoute(
-      builder: (context) => navigateTo.call(context, routerArgs),
-    );
-  }
+  GoRouter generateRouteConfig({required String initialLocation}) => GoRouter(
+      initialLocation: initialLocation,
+      routes: routes,
+      navigatorKey: rootNavigator);
 }
