@@ -22,7 +22,7 @@ class MicroAppHomeResolver implements MicroApp {
         GoRoute(
           name: '/home',
           path: '/home',
-          builder: (context, state) => HomePage(teste: sl.get<Teste>()),
+          builder: (context, state) => HomePage(teste: sl.get<Teste>(), ),
         ),
         GoRoute(
           name: '/historic',

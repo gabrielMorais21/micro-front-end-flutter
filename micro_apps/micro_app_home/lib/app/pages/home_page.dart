@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
               child: ElevatedButton(
                 child: const Text('goToHome',),
                 onPressed: () {
-                  context.go('/login');
+                  context.go(Uri(path: '/login', queryParameters: {'subtitle': 'teste123'}).toString());
                 },
               ),
             ),
