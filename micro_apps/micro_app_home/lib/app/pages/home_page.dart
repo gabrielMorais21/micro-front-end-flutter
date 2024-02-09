@@ -26,16 +26,21 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
-        
       ),
-            body: Center(
+      body: Center(
         child: Column(
           children: [
             Center(
               child: ElevatedButton(
-                child: const Text('goToHome',),
+                child: const Text(
+                  'goToHome',
+                ),
                 onPressed: () {
-                  context.go(Uri(path: '/login', queryParameters: {'subtitle': 'teste123'}).toString());
+
+  
+                  context.push(Uri(
+                      path: '/login',
+                      queryParameters: {'subtitle': 'teste123'}).toString());
                 },
               ),
             ),

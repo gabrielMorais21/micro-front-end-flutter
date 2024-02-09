@@ -1,4 +1,5 @@
 import 'package:base_app/presentation/nested_navigator.dart';
+import 'package:base_app/presentation/spash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:micro_app_login/app/micro_app_login_resolver.dart';
@@ -19,21 +20,19 @@ class MyApp extends StatelessWidget with BaseApp {
     super.registerListeners();
     super.registerRouters();
 
-
     return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      routerConfig: generateRouteConfig(initialLocation: "/home"),
+      routerConfig: generateRouteConfig(initialLocation: "/", splashScreen: SplashScreen()),
     );
   }
 
   @override
   List<RouteBase> get baseRoutes => [
         ShellRoute(
-          
-            navigatorKey: shellNavigator,
+            
             builder: (context, state, child) => NestedNavigator(body: child),
             routes: bottomNavigationroutes)
       ];

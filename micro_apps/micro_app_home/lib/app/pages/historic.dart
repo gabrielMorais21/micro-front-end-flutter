@@ -1,7 +1,3 @@
-import 'dart:async';
-
-import 'package:event_bridge/event_bridge.dart';
-import 'package:event_bridge/events.dart';
 import 'package:flutter/material.dart';
 import 'package:micro_app_home/app/micro_app_home_resolver.dart';
 

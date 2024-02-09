@@ -1,10 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:micro_core/app/micro_core_utils.dart';
 
 import 'microapp.dart';
 
-final sl = GetIt.instance;
 mixin BaseApp {
   List<MicroApp> get microApps;
 
@@ -14,11 +13,6 @@ mixin BaseApp {
 
   final List<RouteBase> bottomNavigationroutes = [];
 
-  final GlobalKey<NavigatorState> rootNavigator = GlobalKey(debugLabel: 'root');
-
-  final GlobalKey<NavigatorState> shellNavigator =
-      GlobalKey(debugLabel: 'shell');
-
   void registerRouters() {
     if (microApps.isNotEmpty) {
       for (MicroApp microapp in microApps) {
@@ -26,7 +20,8 @@ mixin BaseApp {
       }
     }
 
-    if (baseRoutes.isNotEmpty && bottomNavigationroutes.isNotEmpty) routes.addAll(baseRoutes);
+    if (baseRoutes.isNotEmpty && bottomNavigationroutes.isNotEmpty)
+      routes.addAll(baseRoutes);
     if (microApps.isNotEmpty) {
       for (MicroApp microapp in microApps) {
         routes.addAll(microapp.routes);
@@ -50,8 +45,17 @@ mixin BaseApp {
     }
   }
 
-  GoRouter generateRouteConfig({required String initialLocation}) => GoRouter(
-      initialLocation: initialLocation,
-      routes: routes,
-      navigatorKey: rootNavigator);
+  GoRouter generateRouteConfig(
+          {required String initialLocation, required Widget splashScreen}) =>
+      GoRouter(
+          initialLocation: initialLocation,
+          routes: [
+            GoRoute(
+                path: '/',
+                builder: (BuildContext context, GoRouterState state) {
+                  return splashScreen;
+                },
+                routes: routes),
+          ],
+          navigatorKey: rootNavigator);
 }

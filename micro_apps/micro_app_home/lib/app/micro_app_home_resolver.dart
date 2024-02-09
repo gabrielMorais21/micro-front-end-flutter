@@ -20,18 +20,18 @@ class MicroAppHomeResolver implements MicroApp {
   @override
   List<RouteBase> get bottomNavigationroutes => [
         GoRoute(
-          name: '/home',
-          path: '/home',
+          name: 'home',
+          path: 'home',
           builder: (context, state) => HomePage(teste: sl.get<Teste>(), ),
         ),
         GoRoute(
-          name: '/historic',
-          path: '/historic',
+          name: 'historic',
+          path: 'historic',
           builder: (context, state) => HistoricPage(teste: sl.get<Teste>()),
         ),
         GoRoute(
-          name: '/settings',
-          path: '/settings',
+          name: 'settings',
+          path: 'settings',
           builder: (context, state) => SettingsPage(teste: sl.get<Teste>()),
         ),
       ];
